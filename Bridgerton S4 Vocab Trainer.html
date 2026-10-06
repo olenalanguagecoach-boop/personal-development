@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Bridgerton S4 Vocab Trainer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#faf6f0;--card:#fff;--ink:#2b2420;--mut:#7a6e65;--acc:#8a4b6b;--ok:#2e7d4f;--bad:#b3362f;--line:#e4d9cc}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1719;--card:#2a2226;--ink:#f1e8e2;--mut:#b2a39a;--acc:#d49ab8;--ok:#6fcf97;--bad:#ff8a80;--line:#42363c}}
+:root[data-theme="dark"]{--bg:#1c1719;--card:#2a2226;--ink:#f1e8e2;--mut:#b2a39a;--acc:#d49ab8;--ok:#6fcf97;--bad:#ff8a80;--line:#42363c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.5}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.5rem;margin:.2em 0;color:var(--acc)}p.sub{color:var(--mut);margin:0 0 12px}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:8px 12px}
+button:hover{border-color:var(--acc)}nav button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:12px}
+.fc{min-height:210px;cursor:pointer;text-align:center;display:flex;flex-direction:column;justify-content:center}
+.fc .w{font-size:2rem;color:var(--acc)}.fc .m{color:var(--mut);font-size:.9rem}
+.fc .b{text-align:left;font-size:.95rem}.fc .b p{margin:.35em 0}
+.opt{display:block;width:100%;text-align:left;margin:6px 0}
+.opt.ok{background:var(--ok);color:#fff;border-color:var(--ok)}.opt.no{background:var(--bad);color:#fff;border-color:var(--bad)}
+.exp{margin-top:10px;padding:10px;border-left:3px solid var(--acc);color:var(--mut);font-size:.92rem}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.pr{color:var(--mut);font-size:.85rem}input[type=text]{font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:min(260px,100%)}
+.good{color:var(--ok)}.badc{color:var(--bad)}.q{font-size:1.05rem;margin:4px 0 8px}
+</style></head><body><main>
+<h1>Bridgerton S4 · Vocab Trainer</h1>
+<p class="sub">26 words · 5 exercises. Start with the cards, then test yourself.</p>
+<nav id="tabs"></nav><div id="view"></div>
+</main>
+<script>
+const W=[
+{w:"quill",p:"noun",d:"a large feather (used as a pen)",c:"write with a quill; quill and ink",n:"Regular plural: quills.",e:"Lady Whistledown wrote with a quill."},
+{w:"spinsterhood",p:"noun",d:"the state of being an unmarried (older) woman",c:"fear / face spinsterhood",n:"Dated, slightly negative/sexist; today: 'being single'. Uncountable.",e:"She dreaded a lonely spinsterhood."},
+{w:"wager",p:"noun/verb",d:"a bet; to bet",ua:"ставка",c:"place / make a wager; wager on sth; wager money",n:"Old-fashioned/formal (informal: bet). Regular: wager–wagered–wagered.",e:"He placed a wager on the race."},
+{w:"cross",p:"adj",d:"angry, annoyed",c:"be cross with sb; cross about sth",n:"Mainly British, mild and slightly old-fashioned. Not 'cross on'.",e:"Mother is cross with me."},
+{w:"heed",p:"verb",d:"to pay attention to and follow",ua:"брати до уваги",c:"heed a warning / advice / a lesson",n:"Formal; transitive – no preposition (not 'heed to'). Regular. Often negative: failed to heed.",e:"He failed to heed her warnings."},
+{w:"hypocrite",p:"noun",d:"a person who pretends to have morals or beliefs they don't follow",ua:"лицемір",c:"a complete hypocrite",n:"Word family: hypocrisy (n), hypocritical (adj), hypocritically (adv). Stress: HIP-o-krit.",e:"You lecture me, but you're a hypocrite!"},
+{w:"fist",p:"noun",d:"a tightly closed hand",ua:"кулак",c:"clench your fist; shake your fist at sb",n:"Regular plural: fists.",e:"He clenched his fist."},
+{w:"punch",p:"verb/noun",d:"to hit with a closed fist",ua:"вдарити кулаком",c:"punch sb in the face / on the nose",n:"Regular. Body part with 'in the' (face, stomach).",e:"He punched him in the face."},
+{w:"slap",p:"verb/noun",d:"to hit with an open hand",ua:"вдарити долонею, ляснути",c:"slap sb across the face; a slap on the back",n:"Doubling consonant: slap–slapped–slapping.",e:"She slapped him across the cheek."},
+{w:"allowance",p:"noun",d:"a regular amount of money given to someone (pocket money)",ua:"кишенькові гроші",c:"a monthly allowance; an allowance from sb; live on an allowance",n:"Countable. AmE also = pocket money for kids.",e:"Her father gives her a monthly allowance."},
+{w:"subside",p:"verb",d:"to become less strong or intense; to die down",ua:"вщухнути",c:"the storm / pain / anger / fears subside",n:"Regular, no passive. Formal-ish. Maid wars have subsided.",e:"Once the storm subsided, we left."},
+{w:"sit in on sth",p:"phr. verb",d:"to attend a class/meeting as a listener, without taking part officially",c:"sit in on a lesson / meeting / rehearsal",n:"Three-part phrasal verb: sit–sat–sat. Object comes after 'on'.",e:"Eloise, if you're no longer sitting in on finishing lessons…"},
+{w:"in the least",p:"phrase",d:"at all (used in negatives/questions)",c:"not in the least interested / surprised / worried",n:"Formal-ish; almost always after a negative: not … in the least.",e:"She's not in the least interested."},
+{w:"lie-down",p:"noun",d:"a short rest on a bed or sofa",c:"have a (little) lie-down",n:"Informal BrE noun. Verb: lie down – lay – lain (≠ lay down – laid – laid).",e:"I'll have a lie-down before dinner."},
+{w:"dowager",p:"noun",d:"a widow who holds a title or property from her late husband",c:"the Dowager Viscountess / Duchess",n:"Regular plural: dowagers. Formal/historical.",e:"The Dowager Viscountess ruled the family."},
+{w:"ostracise",p:"verb",d:"to deliberately exclude someone from a group or society",c:"ostracised by society / from the group; socially ostracised",n:"BrE -ise / AmE -ize. Often passive. Noun: ostracism.",e:"She was ostracised by high society."},
+{w:"dalliance",p:"noun",d:"a brief, casual romantic or sexual relationship",c:"a dalliance with sb; a brief dalliance",n:"Literary/formal (informal: fling). Verb: dally (with).",e:"His dalliance with an actress ended the engagement."},
+{w:"stringent",p:"adj",d:"(of rules, laws) very strict and demanding",c:"stringent rules / regulations / measures / standards / controls",n:"Formal. Noun: stringency. Used for rules, not people.",e:"The school has stringent rules."},
+{w:"fare",p:"verb",d:"to perform or get on in a particular way",c:"fare well / badly / poorly; How did you fare?",n:"Formal/literary. Regular: fare–fared–fared. Noun fare = ticket price/food.",e:"How did the contestants fare?"},
+{w:"treacle",p:"noun",d:"thick, dark, sticky syrup (AmE: molasses)",c:"treacle tart / sponge; sticky with treacle",n:"BrE, uncountable. Figurative: sickly sentimentality.",e:"The biscuits were sticky with treacle."},
+{w:"morbid",p:"adj",d:"unhealthily interested in death or unpleasant things",c:"morbid curiosity / fascination / thoughts / sense of humour",n:"Noun: morbidity. Slightly negative.",e:"He has a morbid fascination with funerals."},
+{w:"upstage",p:"verb",d:"to draw attention away from someone and onto yourself",c:"upstage sb; upstage the bride / host",n:"Transitive, regular. Originally a theatre term.",e:"She tried to upstage the bride."},
+{w:"reprieve",p:"noun/verb",d:"a cancellation or delay of a punishment; a short relief",c:"grant / win a reprieve; a reprieve from sth; be reprieved",n:"Formal. Stress on the 2nd syllable: re-PREEVE. Often passive as a verb.",e:"The governor granted a last-minute reprieve."},
+{w:"zest",p:"noun",d:"great enthusiasm and energy; also lemon/orange peel",c:"zest for life; with zest; lemon zest",n:"Uncountable; 'for' after zest.",e:"She approached life with zest."},
+{w:"rake",p:"noun",d:"(old-fashioned) a charming man with immoral habits who pursues women",c:"a notorious / reformed rake",n:"Dated; modern: womaniser, player. Also a garden tool.",e:"He was a notorious rake."},
+{w:"deleterious",p:"adj",d:"harmful, damaging",c:"deleterious effect on / to sth; deleterious consequences",n:"Very formal (everyday: harmful).",e:"Smoking has a deleterious effect on health."}];
+
+const G=[["Lady Whistledown wrote her gossip with a ___ and ink.","quill"],["She feared a lonely ___ more than anything.","spinsterhood"],["I'll place a ___ on who arrives last.","wager"],["Mother is ___ with me for coming home so late.","cross"],["He failed to ___ his friends' warnings.","heed"],["You lecture me on honesty, yet you lie – you're a ___!","hypocrite"],["He clenched his ___ in anger.","fist"],["He wanted to ___ the man in the face.","punch"],["She gave him a ___ across the cheek (open hand).","slap"],["Her father gives her a monthly ___.","allowance"],["Once the storm began to ___, we went outside.","subside"],["Can I ___ in on your lesson tomorrow?","sit"],["I wasn't in the ___ interested in his story.","least"],["I have a headache; I'll have a ___ for an hour.","lie-down|lie down"],["The ___ Viscountess is the late viscount's widow.","dowager"],["Society will ___ her if the scandal becomes public.","ostracise|ostracize"],["His brief ___ with an actress ended the engagement.","dalliance"],["The school has ___ rules about uniform.","stringent"],["How did the contestants ___ in the final round?","fare"],["The biscuits were sticky with ___.","treacle"],["He has a ___ fascination with funerals.","morbid"],["The bride's sister tried to ___ her at the wedding.","upstage"],["The governor granted him a last-minute ___.","reprieve"],["She approached life with great ___.","zest"],["He was a notorious ___, famous for breaking hearts.","rake"],["Smoking has a ___ effect on health.","deleterious"]];
+
+const C=[
+["She isn't ___ the least interested.",["in","at","on"],0,"Fixed phrase: not in the least."],
+["Eloise sits ___ on the finishing lessons.",["in","at","up"],0,"sit in on = attend as a listener."],
+["Mother is cross ___ me.",["with","on","to"],0,"cross with sb (AmE also: cross at)."],
+["Which is correct?",["heed the warning","heed to the warning","heed at the warning"],0,"'heed' is transitive – no preposition."],
+["a dalliance ___ a footman",["with","to","for"],0,"dalliance with sb."],
+["a reprieve ___ the death sentence",["from","of","to"],0,"a reprieve from sth."],
+["a zest ___ life",["for","of","to"],0,"zest for life."],
+["a deleterious effect ___ health",["on","at","in"],0,"effect on (or: to) sth."],
+["She was ostracised ___ society.",["by","with","at"],0,"ostracised by society / from a group."],
+["He placed a wager ___ the horse.",["on","at","for"],0,"wager on sth."],
+["Which collocation is natural?",["stringent regulations","stringent person","stringent mood"],0,"Stringent = rules, laws, standards."],
+["Which collocation is natural?",["morbid curiosity","morbid happiness","morbid sunshine"],0,"morbid + curiosity/fascination/thoughts."],
+["They ___ a wager.",["made","did","took out"],0,"make / place a wager."],
+["He punched him ___ the face.",["in","on top of","at"],0,"punch sb in the face."],
+["The Dowager ___ was furious.",["Viscountess","Viscounted","Viscounty"],0,"Dowager + title: Dowager Viscountess."],
+["She gave me a ___ on the back.",["slap","slip","slope"],0,"slap sb on the back / across the face."]];
+
+const R=[
+["Past simple of 'sit in on': 'Last week she ___ in on the lesson.'",["sat","sit","sitted"],0,"sit – sat – sat (irregular)."],
+["I felt dizzy, so I ___ down for an hour.",["lay","laid","lied"],0,"lie down – lay – lain. Laid = lay (put); lied = told lies."],
+["Past participle: 'She had ___ down before dinner.'",["lain","laid","lay"],0,"lie – lay – lain."],
+["Past simple of 'slap':",["slapped","slaped","slap"],0,"Short vowel + consonant: double the p."],
+["Past simple of 'fare':",["fared","fore","faren"],0,"Regular, despite looking old-fashioned."],
+["Past simple of 'wager':",["wagered","wagen","wager'd"],0,"Regular. Informal equivalent: bet–bet–bet (irregular!)."],
+["Which is the most formal word for 'harmful'?",["deleterious","nasty","bad"],0,"Deleterious = very formal register."],
+["Which is informal BrE and means 'a fling'?",["a dalliance","a fling","a liaison"],1,"Dalliance is literary/formal; fling is informal."],
+["Which word is old-fashioned and slightly formal for 'bet'?",["wager","stake out","gamble up"],0,"Wager – formal/dated."],
+["Which spelling is British?",["ostracise","ostracize"],0,"-ise (BrE); -ize (AmE and Oxford spelling)."],
+["Pick the correct passive: 'Society ___ her.'",["ostracised → She was ostracised by society.","ostracised → She ostracised by society.","ostracising → She is ostracise by society."],0,"Passive = be + past participle."],
+["Noun for 'hypocritical':",["hypocrisy","hypocrite-ness","hypocriting"],0,"hypocrite (person) / hypocrisy (quality)."],
+["Which is AmE for 'treacle'?",["molasses","marmalade","custard"],0,"Treacle (BrE) = molasses (AmE) – dark syrup."],
+["'Spinsterhood' today sounds…",["dated and negative","neutral and common","very technical"],0,"Modern English prefers 'single'; 'spinster' can be offensive."],
+["A rake is…",["old-fashioned for a charming womaniser","a modern slang for a lazy student","a formal word for a judge"],0,"Dated; modern: womaniser/player."],
+["Which verb form is correct? 'He ___ to heed my advice.'",["refused","refuse","refusing"],0,"Refuse + to-infinitive; past = refused."]];
+
+const tabs=[["Flashcards",0],["Definitions",1],["Gap-fill",2],["Prepositions & collocations",3],["Grammar & register",4]];
+const nav=document.getElementById("tabs"),view=document.getElementById("view");
+const $=id=>document.getElementById(id);
+const sh=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+function show(i){[...nav.children].forEach((b,j)=>b.className=i==j?"on":"");[cards,defs,gap,mc(C),mc(R)][i]()}
+tabs.forEach((t,i)=>{const b=document.createElement("button");b.textContent=t[0];b.onclick=()=>show(i);nav.appendChild(b)});
+
+function cards(){let i=0,f=false,order=W.slice();
+ const draw=()=>{const x=order[i];view.innerHTML=`<div class="pr">Card ${i+1} / ${order.length} · click card to flip</div><div class="card fc" id="c">`+
+ (f?`<div class="b"><p><b>${esc(x.w)}</b> <i>(${x.p})</i></p><p>${esc(x.d)}${x.ua?" — <b>"+esc(x.ua)+"</b>":""}</p><p>🔗 <b>Collocations:</b> ${esc(x.c)}</p><p>📝 <b>Grammar/register:</b> ${esc(x.n)}</p><p>💬 <i>${esc(x.e)}</i></p></div>`
+ :`<div class="w">${esc(x.w)}</div><div class="m">${x.p}</div>`)+`</div><div class="row"><button id="p">← Prev</button><button id="n">Next →</button><button id="s">Shuffle</button></div>`;
+ $("c").onclick=()=>{f=!f;draw()};$("p").onclick=()=>{i=(i+order.length-1)%order.length;f=false;draw()};$("n").onclick=()=>{i=(i+1)%order.length;f=false;draw()};$("s").onclick=()=>{order=sh(W);i=0;f=false;draw()}};draw()}
+
+function run(items,render){let i=0,sc=0;items=sh(items);
+ const next=()=>{if(i>=items.length){view.innerHTML=`<div class="card"><h2>Score: ${sc} / ${items.length}</h2><p>${sc==items.length?"Perfect! 🎉":"Good effort – try again to lock it in."}</p><button id="r">Restart</button></div>`;$("r").onclick=()=>{i=0;sc=0;items=sh(items);next()};return}
+  render(items[i],ok=>{if(ok)sc++;i++},next,i+1,items.length)};next()}
+
+function mcRender(q,opts,ai,exp,done,next,k,n){const o=sh(opts.map((t,j)=>[t,j==ai]));
+ view.innerHTML=`<div class="card"><div class="pr">Question ${k} / ${n}</div><div class="q">${esc(q)}</div>`+o.map((x,j)=>`<button class="opt" data-j="${j}">${esc(x[0])}</button>`).join("")+`<div id="fb"></div></div>`;
+ let locked=false;view.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(locked)return;locked=true;const ok=o[b.dataset.j][1];b.classList.add(ok?"ok":"no");
+  view.querySelectorAll(".opt").forEach((bb,j)=>{if(o[j][1])bb.classList.add("ok")});done(ok);
+  $("fb").innerHTML=`<div class="exp">${ok?"✅ ":"❌ "}${esc(exp)}</div><div class="row"><button id="nx">Next →</button></div>`;$("nx").onclick=next})}
+
+function mc(list){return()=>run(list.map(x=>({q:x[0],o:x[1],a:x[2],e:x[3]})),(x,done,next,k,n)=>mcRender(x.q,x.o,x.a,x.e,done,next,k,n))}
+
+function defs(){const items=W.map((x,i)=>({x,i}));
+ run(items,(it,done,next,k,n)=>{const others=sh(W.filter(y=>y!==it.x)).slice(0,3);
+  const opts=[it.x.w,...others.map(y=>y.w)];
+  mcRender("Which word? "+it.x.d+(it.x.ua?"  ("+it.x.ua+")":""),opts,0,it.x.w+" ("+it.x.p+") – "+it.x.n,done,next,k,n)})}
+
+function gap(){run(G.map(g=>({s:g[0],a:g[1].split("|")})),(x,done,next,k,n)=>{
+ view.innerHTML=`<div class="card"><div class="pr">Sentence ${k} / ${n} · type the missing word</div><div class="q">${esc(x.s)}</div><div class="row"><input type="text" id="ans" autocomplete="off" autocapitalize="off"><button id="ck">Check</button><button id="rv">Show answer</button></div><div id="fb"></div></div>`;
+ let fin=false;const end=ok=>{fin=true;done(ok);$("fb").innerHTML=`<div class="exp ${ok?"good":"badc"}">${ok?"✅ Correct":"❌ Answer"}: <b>${esc(x.a[0])}</b></div><div class="row"><button id="nx">Next →</button></div>`;$("nx").onclick=next;$("nx").focus()};
+ const chk=()=>{if(fin)return;const v=$("ans").value.trim().toLowerCase();if(!v)return;if(x.a.includes(v))end(true);else $("fb").innerHTML=`<div class="exp badc">Not quite – starts with “${x.a[0][0]}”, ${x.a[0].length} letters. Try again or reveal.</div>`};
+ $("ck").onclick=chk;$("ans").onkeydown=e=>{if(e.key=="Enter")chk()};$("rv").onclick=()=>{if(!fin)end(false)};$("ans").focus()})}
+show(0);
+</script></body></html>
