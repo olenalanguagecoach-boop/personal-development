@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>C1/C2 Vocab Trainer</title>
+<style>
+:root{--bg:#faf8f4;--fg:#222;--mut:#777;--card:#fff;--bd:#ddd5c8;--ac:#b4472f;--ok:#2f7d4f;--no:#b32d2d;--chip:#f1e9dd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1917;--fg:#eee;--mut:#9a948b;--card:#262320;--bd:#3d3833;--ac:#e8806a;--ok:#6fcf97;--no:#f08080;--chip:#332e29}}
+:root[data-theme="dark"]{--bg:#1b1917;--fg:#eee;--mut:#9a948b;--card:#262320;--bd:#3d3833;--ac:#e8806a;--ok:#6fcf97;--no:#f08080;--chip:#332e29}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Georgia,"Times New Roman",serif}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:1.3rem;margin:0 0 10px}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+button,select{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:8px;padding:8px 12px;cursor:pointer}
+nav button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;min-height:230px;padding:22px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer}
+.card .w{font-size:1.7rem;font-weight:bold}
+.tag{font-size:.75rem;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.card .back{text-align:left}
+.card em{color:var(--mut)}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:2px 10px;margin:3px 4px 0 0;font-size:.88rem}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--mut);font-size:.9rem}
+.q{font-size:1.15rem;margin:8px 0 14px}
+.bl{border-bottom:2px solid var(--ac);padding:0 8px;color:var(--ac)}
+.opts{display:grid;gap:8px}
+.opt{text-align:left}
+.opt.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.no{background:var(--no);color:#fff;border-color:var(--no)}
+#fb{margin-top:12px}
+.big{font-size:1.4rem}
+.gr{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.gr h3{margin:0 0 4px;font-size:1rem;color:var(--ac)}
+.gr p{margin:4px 0}
+</style></head><body><main>
+<h1>🧠 C1/C2 Vocab Trainer</h1>
+<nav id="nav"></nav>
+<section id="v"></section>
+<script>
+const GN={R:"Relationships, conflict & attitude",E:"Everyday life & health",C:"Crime",G:"Grammar"};
+const D=[
+{w:"get a bug",g:"E",d:"catch a mild infection (often a stomach bug)",ex:"I've got a bug and spent the weekend in bed.",col:["a stomach bug","a bug going round","pick up a bug"],ctx:"I can't come in – I think I've ___ and I feel awful.",f:"got a bug"},
+{w:"my head is spinning / I feel dizzy",g:"E",d:"you feel unsteady, as if the room is moving",ex:"My head starts spinning after I walk, because I feel dizzy.",col:["feel dizzy","a dizzy spell","feel light-headed","make your head spin"],ctx:"I stood up too fast and my head started ___.",f:"spinning"},
+{w:"faff (about / around)",g:"E",d:"waste time on unimportant things (informal, BrE)",ex:"Stop faffing on your phone and get ready!",col:["faff about/around","faff on your phone","without all the faff"],ctx:"Stop ___ on your phone and get ready – we're late!",f:"faffing"},
+{w:"proliferate",g:"E",d:"increase rapidly in number or spread quickly",ex:"Fake news proliferates on social media.",col:["a proliferation of","proliferate rapidly","weapons proliferation"],ctx:"Cheap fast-fashion shops have ___ in the city centre.",f:"proliferated"},
+{w:"to loot",g:"C",d:"steal goods during a riot, war or disaster",ex:"Gangs began to loot shops during the blackout.",col:["loot a shop","widespread looting","a looter"],ctx:"Gangs began to ___ shops during the blackout.",f:"loot"},
+{w:"drug lord",g:"C",d:"the head of a drug-trafficking organisation (also: drug baron, kingpin)",ex:"The police finally arrested the notorious drug lord.",col:["a notorious drug lord","a cartel boss","bring down a drug lord"],ctx:"The police finally arrested the notorious ___.",f:"drug lord"},
+{w:"get / have the final say",g:"R",d:"have the power to make the last decision",ex:"My boss listens to everyone, but she has the final say on the budget.",col:["the final say in/on sth","the final say rests with sb","the last word"],ctx:"My boss listens to everyone, but she ___ on the budget.",f:"has the final say"},
+{w:"fussing",g:"R",d:"giving too much attention or worry to small things",ex:"I'd think carefully before treating every bit of maternal fussing as an offence against your independence.",col:["fuss over sb","fuss about sth","make a fuss","a fussy eater"],ctx:"Stop ___ over me – I'm only a bit tired!",f:"fussing"},
+{w:"I'd rather sb + past simple",g:"G",d:"say what you want someone ELSE to do (present/future), using a past form",ex:"I'd rather you came tomorrow.",col:["I'd rather you didn't","I'd rather you hadn't (past)","I'd rather (not) + infinitive (same subject)"]},
+{w:"clear the air",g:"R",d:"remove tension or bad feeling by talking openly",ex:"After the argument, we sat down to clear the air.",col:["clear the air with sb","a meeting to clear the air"],ctx:"After the argument, we sat down to ___.",f:"clear the air"},
+{w:"put-down (n)",g:"R",d:"a remark that humiliates or insults someone",ex:"Her constant put-downs made him feel small.",col:["a cruel put-down","a put-down of sb","put sb down (v)"],ctx:"Her constant ___ made him feel small.",f:"put-downs"},
+{w:"courtesy",g:"R",d:"polite, considerate behaviour",ex:"They may be showing you the same courtesy.",col:["have the courtesy to do sth","show sb courtesy","a courtesy call","(by) courtesy of"],ctx:"He didn't even have the ___ to say thank you.",f:"courtesy"},
+{w:"on the inside",g:"R",d:"in your real feelings, not as it looks from outside",ex:"I'm in my 70s with three grown-up children, and I still feel 35 on the inside.",col:["feel young on the inside","dead on the inside","calm outside, panicking on the inside"],ctx:"She looks calm, but she's panicking ___.",f:"on the inside"},
+{w:"final (adj.)",g:"R",d:"unwilling to discuss or change a decision further",ex:"I'd ask you to be a little less final about it.",col:["be/sound final about sth","a final decision","the final word"],ctx:"Don't be so ___ about it – let's at least discuss it.",f:"final"},
+{w:"keep your chin up",g:"R",d:"stay cheerful and brave in a difficult situation",ex:"I do believe in keeping your chin up and carrying on.",col:["Keep your chin up!","keep your chin up and carry on"],ctx:"I know it's been a rough week, but ___ – things will improve.",f:"keep your chin up"},
+{w:"a white lie",g:"R",d:"a harmless lie told to be polite or kind",ex:"I said I loved the scarf – just a white lie.",col:["tell a white lie","a little white lie"],ctx:"I told her I loved the scarf – just ___ to be kind.",f:"a white lie"},
+{w:"smudged",g:"C",d:"marked or blurred by being rubbed or touched",ex:"The fingerprints were too smudged to be matched.",col:["smudged fingerprints","smudged ink / make-up","smudge a window (v)"],ctx:"The print was too ___ to be matched on the database.",f:"smudged"},
+{w:"nepo baby",g:"E",d:"(informal) someone whose career benefited from famous or powerful parents",ex:"Critics called her a nepo baby.",col:["the nepo baby debate","a nepo baby actor","nepotism (n)"],ctx:"Critics called her a ___ because both her parents were directors.",f:"nepo baby"},
+{w:"butty",g:"E",d:"(BrE, northern, informal) a sandwich",ex:"Nothing cures a hangover like a bacon butty.",col:["a bacon butty","a chip butty","a sausage butty"],ctx:"Nothing cures a hangover like a bacon ___.",f:"butty"},
+{w:"downtime",g:"E",d:"time for rest, or time when a machine/system is not working",ex:"After the conference I need some downtime.",col:["need some downtime","server downtime","scheduled downtime"],ctx:"After the conference I need a bit of ___ to recharge.",f:"downtime"},
+{w:"a torrent of sth",g:"R",d:"a large amount of something (abuse, words) coming out fast",ex:"She received a torrent of criticism online.",col:["a torrent of abuse","a torrent of criticism","a torrent of questions","rain falls in torrents"],ctx:"The referee faced a ___ of abuse from the fans.",f:"torrent"},
+{w:"talk down to sb",g:"R",d:"speak in a patronising way, as if someone is less intelligent",ex:"Don't talk down to me – I understand perfectly well.",col:["talk down to children","hate being talked down to","a patronising tone"],ctx:"Don't ___ me – I understand perfectly well.",f:"talk down to"},
+{w:"to bolster sth",g:"E",d:"strengthen or support something",ex:"The new evidence will bolster their case.",col:["bolster confidence / morale","bolster the economy","bolster an argument"],ctx:"The new evidence will ___ their case.",f:"bolster"}
+];
+const CO=[
+{q:"a torrent of ___",a:"abuse",o:["chairs","happiness","rooms"]},
+{q:"have the ___ to apologise",a:"courtesy",o:["kindness","politeness","nicety"]},
+{q:"to bolster your ___",a:"confidence",o:["fear","illness","noise"]},
+{q:"to fuss ___ your children",a:"over",o:["at","by","into"]},
+{q:"to faff ___ instead of working",a:"about",o:["out","down","off"]},
+{q:"a ___ of cheap online shops",a:"proliferation",o:["proliferate","proliferating","proliferated"]},
+{q:"to have the final ___",a:"say",o:["talk","speak","tell"]},
+{q:"to clear the ___",a:"air",o:["sky","breath","wind"]},
+{q:"Keep your ___ up!",a:"chin",o:["nose","ear","lip"]},
+{q:"to talk down ___ sb",a:"to",o:["at","on","over"]},
+{q:"a cruel ___",a:"put-down",o:["put-up","put-off","put-on"]},
+{q:"a dizzy ___",a:"spell",o:["period","season","stretch"]},
+{q:"to tell a ___ lie",a:"white",o:["pale","clean","light"]}
+];
+const GR=[
+{q:"It's late. I'd rather you ___ tomorrow.",a:"came",o:["come","will come","to come"],e:"Different subject + I'd rather → PAST SIMPLE form with present/future meaning."},
+{q:"I'd rather you ___ lied to me at the time.",a:"hadn't",o:["didn't","wouldn't","don't"],e:"Regret about the PAST → I'd rather + sb + past perfect."},
+{q:"I'd rather ___ her myself. (same subject)",a:"tell",o:["to tell","told","telling"],e:"Same subject → bare infinitive, no 'to'."},
+{q:"She has ___ final say in all hiring decisions.",a:"the",o:["a","some","no article"],e:"'the final say' is a fixed phrase with the definite article."},
+{q:"He didn't even have the courtesy ___ call.",a:"to",o:["of","for","that he"],e:"have the courtesy / nerve / decency + to-infinitive. (Courtesy of = thanks to.)"},
+{q:"We had very little ___ last month.",a:"downtime",o:["downtimes","a downtime","downtime's"],e:"Downtime is uncountable: little/much/some downtime."},
+{q:"Which is natural?",a:"The shops were looted overnight.",o:["The shops were looting overnight.","The shops looted overnight.","The loot of shops was happened."],e:"loot (v) is transitive; use the passive for the victims. 'Loot' as a noun is uncountable."}
+];
+const GRN=[
+["I'd rather…","Same subject: I'd rather stay. Different subject: I'd rather you stayed (past form, present/future meaning). Past regret: I'd rather you hadn't said that. Never 'would' or 'will' after it."],
+["Prepositions that stick","the final say IN/ON sth · fuss OVER/ABOUT sb · talk down TO sb · a torrent OF abuse · (by) courtesy OF."],
+["have the courtesy / nerve / decency","+ to-infinitive: He didn't have the courtesy to call."],
+["Countable or not?","downtime, loot, courtesy (= polite behaviour) are uncountable. 'A courtesy' = a polite act. Use 'a bit of / some / little' with them."],
+["Word families","proliferate → proliferation · loot (v/n) → looter, looting · smudge (v/n) → smudged · fuss (n/v) → fussy, fussing."],
+["Register","faff, butty, nepo baby and 'cause' are informal (the first two are British). Save them for speech and chat."]
+];
+const sh=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const V=document.getElementById("v");
+const known=new Set();
+function quiz(items){
+  let o=sh(items),i=0,s=0,done=false;
+  (function draw(){
+    done=false;
+    if(i>=o.length){V.innerHTML=`<p class="big">Score: ${s}/${o.length}</p><button id="r">Try again</button>`;document.getElementById("r").onclick=()=>{o=sh(items);i=0;s=0;draw()};return}
+    const t=o[i];
+    V.innerHTML=`<p class="muted">${i+1} / ${o.length} · score ${s}</p><p class="q">${t.q.replace("___",'<span class="bl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>')}</p><div class="opts">${sh(t.o.concat(t.a)).map(x=>`<button class="opt">${x}</button>`).join("")}</div><div id="fb"></div>`;
+    V.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      if(done)return;done=true;
+      const ok=b.textContent===t.a;if(ok)s++;
+      V.querySelectorAll(".opt").forEach(x=>{if(x.textContent===t.a)x.classList.add("ok");else if(x===b)x.classList.add("no")});
+      document.getElementById("fb").innerHTML=`<p>${ok?"✅ Correct.":"❌ Answer: <b>"+t.a+"</b>."} ${t.e||""}</p><button id="n">Next →</button>`;
+      document.getElementById("n").onclick=()=>{i++;draw()};
+    });
+  })();
+}
+function cards(){
+  let grp="all",list=D,i=0,flip=false;
+  function draw(){
+    const t=list[i];
+    V.innerHTML=`<div class="row" style="margin:0 0 10px"><select id="g"><option value="all">All groups (${D.length})</option>${Object.keys(GN).map(k=>`<option value="${k}" ${k===grp?"selected":""}>${GN[k]}</option>`).join("")}</select><button id="s">Shuffle</button><span class="muted">${known.size} known</span></div>
+    <div class="card" id="c">${flip?`<div class="back"><div class="tag">${GN[t.g]}</div><p><b>${t.w}</b> – ${t.d}</p><p><em>${t.ex}</em></p><div>${t.col.map(c=>`<span class="chip">${c}</span>`).join("")}</div></div>`:`<div class="tag">${GN[t.g]}</div><div class="w">${t.w}</div><p class="muted">tap to flip</p>`}</div>
+    <div class="row"><button id="p">←</button><span class="muted">${i+1}/${list.length}</span><button id="nx">→</button><button id="k">${known.has(t.w)?"✓ Known":"Mark as known"}</button></div>`;
+    document.getElementById("c").onclick=()=>{flip=!flip;draw()};
+    document.getElementById("p").onclick=()=>{i=(i-1+list.length)%list.length;flip=false;draw()};
+    document.getElementById("nx").onclick=()=>{i=(i+1)%list.length;flip=false;draw()};
+    document.getElementById("k").onclick=()=>{known.has(t.w)?known.delete(t.w):known.add(t.w);draw()};
+    document.getElementById("s").onclick=()=>{list=sh(list);i=0;flip=false;draw()};
+    document.getElementById("g").onchange=e=>{grp=e.target.value;list=grp==="all"?D:D.filter(x=>x.g===grp);i=0;flip=false;draw()};
+  }
+  draw();
+}
+function grammar(){
+  V.innerHTML=GRN.map(x=>`<div class="gr"><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join("")+`<div class="row"><button id="gq">Practise grammar →</button></div>`;
+  document.getElementById("gq").onclick=()=>{setTab(4)};
+}
+const T=[["Cards",cards],["In context",()=>quiz(D.filter(x=>x.ctx).map(x=>{const od=sh(D.filter(y=>y.ctx&&y!==x)).slice(0,3).map(y=>y.f);return{q:x.ctx,a:x.f,o:od,e:`<br><b>${x.w}</b>: ${x.d}.`}}))],["Collocations",()=>quiz(CO)],["Grammar",grammar],["Grammar quiz",()=>quiz(GR)]];
+const N=document.getElementById("nav");
+function setTab(n){N.innerHTML=T.map((t,j)=>`<button class="${j===n?"on":""}" data-j="${j}">${t[0]}</button>`).join("");N.querySelectorAll("button").forEach(b=>b.onclick=()=>setTab(+b.dataset.j));T[n][1]()}
+setTab(0);
+</script></main></body></html>
