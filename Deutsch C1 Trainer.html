@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deutsch C1 Trainer</title>
+<style>
+:root{--bg:#faf8f4;--fg:#222;--mut:#777;--card:#fff;--bd:#ddd5c8;--ac:#b4472f;--ok:#2f7d4f;--no:#b32d2d;--chip:#f1e9dd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1917;--fg:#eee;--mut:#9a948b;--card:#262320;--bd:#3d3833;--ac:#e8806a;--ok:#6fcf97;--no:#f08080;--chip:#332e29}}
+:root[data-theme="dark"]{--bg:#1b1917;--fg:#eee;--mut:#9a948b;--card:#262320;--bd:#3d3833;--ac:#e8806a;--ok:#6fcf97;--no:#f08080;--chip:#332e29}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Georgia,"Times New Roman",serif}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:1.3rem;margin:0 0 10px}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+button{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:8px;padding:8px 12px;cursor:pointer}
+nav button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;min-height:230px;padding:22px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer}
+.w{font-size:1.7rem;font-weight:bold}
+.back{text-align:left}
+em,.muted{color:var(--mut)}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:2px 10px;margin:3px 4px 0 0;font-size:.88rem}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.q{font-size:1.15rem;margin:8px 0 14px}
+.bl{border-bottom:2px solid var(--ac);padding:0 8px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left}
+.opt.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.no{background:var(--no);color:#fff;border-color:var(--no)}
+.big{font-size:1.4rem}
+.gr{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.gr h3{margin:0 0 4px;font-size:1rem;color:var(--ac)}
+.gr p{margin:4px 0}
+</style></head><body><main>
+<h1>🇩🇪 Deutsch C1 – Wortschatz</h1>
+<nav id="nav"></nav>
+<section id="v"></section>
+<script>
+const D=[
+{w:"gestehen",u:"зізнаватися, визнавати (провину)",ex:"Ich muss gestehen, dass ich den Termin vergessen habe.",n:"gestehen – gestand – hat gestanden (+ Akk.)",col:["ein Verbrechen gestehen","offen gestehen","ehrlich gestanden"],ctx:"Ich muss ___, dass ich den Termin vergessen habe.",f:"gestehen"},
+{w:"ansonsten",u:"інакше; в іншому (щодо решти)",ex:"Beeil dich, ansonsten verpasst du den Zug.",n:"Adverb: danach steht das Verb an Position 2 (Inversion).",col:["Ansonsten alles gut.","ansonsten nichts Neues"],ctx:"Beeil dich, ___ verpasst du den Zug.",f:"ansonsten"},
+{w:"die Empörung",u:"обурення, гнів",ex:"Der Vorschlag löste große Empörung aus.",n:"nur Singular · Empörung über + Akk. · sich empören über + Akk.",col:["Empörung auslösen","Empörung über + Akk.","eine Welle der Empörung"],ctx:"Der Vorschlag löste große ___ aus.",f:"Empörung"},
+{w:"reibungslos",u:"безперебійно, без тертя, гладко",ex:"Die Übergabe verlief völlig reibungslos.",n:"Wortbildung: Reibung + -los (= ohne Reibung)",col:["reibungslos funktionieren","reibungslos ablaufen/verlaufen","ein reibungsloser Ablauf"],ctx:"Die Übergabe verlief völlig ___.",f:"reibungslos"},
+{w:"der Anschlag, -¨e",u:"1) замах, теракт; 2) удар (по клавіші); 3) оголошення; 4) упор",ex:"Bei dem Anschlag auf den Bahnhof wurde niemand verletzt.",n:"Anschlag auf + Akk. · Plural mit Umlaut",col:["einen Anschlag verüben","ein Anschlag auf + Akk.","bis zum Anschlag","Terroranschlag"],ctx:"Bei dem ___ auf den Bahnhof wurde niemand verletzt.",f:"Anschlag"},
+{w:"der Abschlag, -¨e",u:"1) знижка, відрахування; 2) часткова оплата, аванс; 3) гол-кік (футбол)",ex:"Bei Barzahlung gewähren wir einen Abschlag von fünf Prozent.",n:"Plural mit Umlaut · Abschlagszahlung = часткова оплата",col:["einen Abschlag gewähren","Abschlagszahlung","mit Abschlägen rechnen"],ctx:"Bei Barzahlung gewähren wir einen ___ von fünf Prozent.",f:"Abschlag"},
+{w:"eine Vollmacht ausstellen",u:"оформити довіреність",ex:"Er hat seiner Tochter eine Vollmacht ausgestellt.",n:"die Vollmacht, -en · jdm. Vollmacht erteilen/ausstellen",col:["eine notarielle Vollmacht","eine Vollmacht erteilen","Generalvollmacht"],ctx:"Er hat seiner Tochter eine ___ ausgestellt.",f:"Vollmacht"},
+{w:"betteln",u:"жебракувати; випрошувати",ex:"Die Kinder betteln um Süßigkeiten.",n:"betteln um + Akk. · bei jdm. um etwas betteln",col:["um Geld betteln","betteln gehen","Betteln verboten"],ctx:"Die Kinder ___ um Süßigkeiten.",f:"betteln"},
+{w:"biegen",u:"гнути, згинати; повертати (за ріг)",ex:"Der Wagen ist um die Ecke gebogen.",n:"biegen – bog – hat gebogen (Objekt) / ist gebogen (Bewegung)",col:["um die Ecke biegen","sich biegen","Lügen, dass sich die Balken biegen"],ctx:"Die Straße ___ hier nach links.",f:"biegt"},
+{w:"biegsam",u:"гнучкий, податливий",ex:"Der Trainer ist erstaunlich biegsam.",n:"Wortbildung: biegen + -sam · auch übertragen: biegsam im Denken",col:["biegsamer Stahl","biegsam wie eine Weide"],ctx:"Der Gymnastiktrainer ist erstaunlich ___.",f:"biegsam"}
+];
+const CO=[
+{q:"einen Anschlag ___",a:"verüben",o:["machen","tun","legen"]},
+{q:"bis zum ___",a:"Anschlag",o:["Abschlag","Ausschlag","Einschlag"]},
+{q:"Empörung ___",a:"auslösen",o:["ausmachen","ausgeben","ausziehen"]},
+{q:"reibungslos ___",a:"funktionieren",o:["reiben","wachsen","sprechen"]},
+{q:"ehrlich ___",a:"gestanden",o:["gestehen","gegestanden","gestand"]},
+{q:"einen ___ auf den Preis",a:"Abschlag",o:["Anschlag","Ausschlag","Einschlag"]},
+{q:"die Empörung ___ den Vorfall",a:"über",o:["auf","für","um"]},
+{q:"Lügen, dass sich die Balken ___",a:"biegen",o:["bücken","brechen","beugen"]},
+{q:"Betteln ist hier ___",a:"verboten",o:["verbogen","verbunden","verbessert"]}
+];
+const GRN=[
+["Partizip II ohne ge-","Verben mit untrennbarem Präfix bilden das Partizip II ohne ge-: gestehen → gestanden (nicht „gegestanden“), bestellen → bestellt."],
+["Verb/Nomen + Präposition","betteln UM + Akk. · sich empören ÜBER + Akk. · die Empörung ÜBER + Akk. · der Anschlag AUF + Akk."],
+["ansonsten = Adverb","Nach „ansonsten“ steht das Verb an Position 2: Beeil dich, ansonsten kommst du zu spät. Im dass-Satz dagegen am Ende: Ich muss gestehen, dass ich es vergessen habe."],
+["Plural mit Umlaut","der Anschlag → die Anschläge · der Abschlag → die Abschläge · die Vollmacht → die Vollmachten · die Empörung hat keinen Plural."],
+["haben oder sein?","biegen mit Objekt: Er hat den Draht gebogen. Mit Richtungsbewegung: Sie ist um die Ecke gebogen."],
+["Adjektive auf -los / -sam","reibungslos (ohne Reibung), biegsam (biegen + -sam); ähnlich: sorglos, wirkungslos, empfindsam."]
+];
+const GR=[
+{q:"Er hat die Tat endlich ___.",a:"gestanden",o:["gegestanden","gestehen","gestehte"],e:"Untrennbares Präfix ge- → kein zusätzliches ge- im Partizip II."},
+{q:"Die Passanten empörten sich ___ die Entscheidung.",a:"über",o:["um","auf","für"],e:"sich empören über + Akk."},
+{q:"Die Kinder betteln ___ Süßigkeiten.",a:"um",o:["für","nach","auf"],e:"betteln um + Akk."},
+{q:"Beeil dich, ansonsten ___ zu spät.",a:"kommst du",o:["du kommst","du kommen","kommt du"],e:"Nach dem Adverb „ansonsten“ steht das Verb an Position 2."},
+{q:"Plural von „der Abschlag“:",a:"die Abschläge",o:["die Abschlage","die Abschlägen","die Abschlags"],e:"Maskulina auf -schlag bilden den Plural mit Umlaut + -e."},
+{q:"Der Wagen ___ gerade um die Ecke gebogen.",a:"ist",o:["hat","wird","sein"],e:"Bewegung mit Richtung → Perfekt mit sein."}
+];
+const sh=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const V=document.getElementById("v"),known=new Set();
+function quiz(items){
+  let o=sh(items),i=0,s=0,done=false;
+  (function draw(){
+    done=false;
+    if(i>=o.length){V.innerHTML=`<p class="big">Ergebnis: ${s}/${o.length}</p><button id="r">Nochmal</button>`;document.getElementById("r").onclick=()=>{o=sh(items);i=0;s=0;draw()};return}
+    const t=o[i];
+    V.innerHTML=`<p class="muted">${i+1} / ${o.length} · ${s} richtig</p><p class="q">${t.q.replace("___",'<span class="bl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>')}</p><div class="opts">${sh(t.o.concat(t.a)).map(x=>`<button class="opt">${x}</button>`).join("")}</div><div id="fb"></div>`;
+    V.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      if(done)return;done=true;
+      const ok=b.textContent===t.a;if(ok)s++;
+      V.querySelectorAll(".opt").forEach(x=>{if(x.textContent===t.a)x.classList.add("ok");else if(x===b)x.classList.add("no")});
+      document.getElementById("fb").innerHTML=`<p>${ok?"✅ Richtig.":"❌ Richtig: <b>"+t.a+"</b>."} ${t.e||""}</p><button id="n">Weiter →</button>`;
+      document.getElementById("n").onclick=()=>{i++;draw()};
+    });
+  })();
+}
+function cards(){
+  let list=D,i=0,flip=false;
+  function draw(){
+    const t=list[i];
+    V.innerHTML=`<div class="card" id="c">${flip?`<div class="back"><p><b>${t.w}</b> – ${t.u}</p><p><em>${t.ex}</em></p><p class="muted">${t.n}</p><div>${t.col.map(c=>`<span class="chip">${c}</span>`).join("")}</div></div>`:`<div class="w">${t.w}</div><p class="muted">tippen zum Umdrehen</p>`}</div>
+    <div class="row"><button id="p">←</button><span class="muted">${i+1}/${list.length} · ${known.size} bekannt</span><button id="nx">→</button><button id="k">${known.has(t.w)?"✓ Bekannt":"Als bekannt markieren"}</button><button id="s">Mischen</button></div>`;
+    document.getElementById("c").onclick=()=>{flip=!flip;draw()};
+    document.getElementById("p").onclick=()=>{i=(i-1+list.length)%list.length;flip=false;draw()};
+    document.getElementById("nx").onclick=()=>{i=(i+1)%list.length;flip=false;draw()};
+    document.getElementById("k").onclick=()=>{known.has(t.w)?known.delete(t.w):known.add(t.w);draw()};
+    document.getElementById("s").onclick=()=>{list=sh(list);i=0;flip=false;draw()};
+  }
+  draw();
+}
+function grammar(){
+  V.innerHTML=GRN.map(x=>`<div class="gr"><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join("")+`<div class="row"><button id="gq">Grammatik üben →</button></div>`;
+  document.getElementById("gq").onclick=()=>setTab(4);
+}
+const T=[["Karten",cards],["Im Kontext",()=>quiz(D.map(x=>({q:x.ctx,a:x.f,o:sh(D.filter(y=>y!==x)).slice(0,3).map(y=>y.f),e:`<br><b>${x.w}</b>: ${x.u}`})))],["Kollokationen",()=>quiz(CO)],["Grammatik",grammar],["Grammatik-Quiz",()=>quiz(GR)]];
+const N=document.getElementById("nav");
+function setTab(n){N.innerHTML=T.map((t,j)=>`<button class="${j===n?"on":""}" data-j="${j}">${t[0]}</button>`).join("");N.querySelectorAll("button").forEach(b=>b.onclick=()=>setTab(+b.dataset.j));T[n][1]()}
+setTab(0);
+</script></main></body></html>
