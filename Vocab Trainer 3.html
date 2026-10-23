@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vocab Trainer 3</title>
+<style>
+:root{--bg:#faf8f4;--fg:#222;--mut:#777;--card:#fff;--bd:#ddd5c8;--ac:#b4472f;--ok:#2f7d4f;--no:#b32d2d;--chip:#f1e9dd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1917;--fg:#eee;--mut:#9a948b;--card:#262320;--bd:#3d3833;--ac:#e8806a;--ok:#6fcf97;--no:#f08080;--chip:#332e29}}
+:root[data-theme="dark"]{--bg:#1b1917;--fg:#eee;--mut:#9a948b;--card:#262320;--bd:#3d3833;--ac:#e8806a;--ok:#6fcf97;--no:#f08080;--chip:#332e29}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Georgia,"Times New Roman",serif}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:1.3rem;margin:0 0 10px}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+button{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:8px;padding:8px 12px;cursor:pointer}
+nav button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;min-height:230px;padding:22px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer}
+.w{font-size:1.6rem;font-weight:bold}
+.back{text-align:left}
+em,.muted{color:var(--mut)}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:2px 10px;margin:3px 4px 0 0;font-size:.88rem}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.q{font-size:1.15rem;margin:8px 0 14px}
+.bl{border-bottom:2px solid var(--ac);padding:0 8px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left}
+.opt.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.no{background:var(--no);color:#fff;border-color:var(--no)}
+.big{font-size:1.4rem}
+.gr{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.gr h3{margin:0 0 4px;font-size:1rem;color:var(--ac)}
+.gr p{margin:4px 0}
+</style></head><body><main>
+<h1>🧠 Vocab Trainer 3</h1>
+<nav id="nav"></nav>
+<section id="v"></section>
+<script>
+const D=[
+["to bring in sth","introduce or start using something new","The school decided to bring in VR to support learning.",["bring in new rules","bring in an expert","bring in revenue"],"The government plans to ___ new rules on drone use.","bring in"],
+["bearing (підшипник)","a part that reduces friction in a rotating machine; also relevance or direction","The wheel needs a new bearing.",["a ball bearing","have a bearing on sth","get/lose your bearings"],"The noise came from a worn ___ in the wheel.","bearing"],
+["stand your ground","refuse to change your position despite pressure","She stood her ground during the negotiations.",["hold your ground","stand your ground against sb"],"Despite the pressure, she ___ and refused to sign.","stood her ground"],
+["have a lie-in","stay in bed later than usual (AmE: sleep in)","On Sundays I have a lie-in.",["a long lie-in","sleep in (AmE)"],"It's Saturday – let's ___ and skip the gym.","have a lie-in"],
+["nod off","fall asleep without meaning to","I nodded off during the lecture.",["nod off in front of the TV","doze off"],"I kept ___ during the boring meeting.","nodding off"],
+["on a rolling basis","continuously, with no fixed end date","No deadline, applications are considered on a rolling basis.",["reviewed on a rolling basis","rolling admissions"],"There's no deadline – applications are considered ___.","on a rolling basis"],
+["Criminal Procedure Code of Ukraine (CPC)","the main law regulating criminal proceedings in Ukraine","The search was carried out in accordance with the CPC.",["under Article 208 of the CPC","comply with the CPC"],"The search was carried out in accordance with the ___ of Ukraine.","Criminal Procedure Code"],
+["talk sb round to sth","persuade sb to accept an idea (BrE; AmE: around)","I talked my dad round to the idea of getting a dog.",["come round to an idea","win sb over"],"It took me an hour to ___ the idea of moving.","talk her round to"],
+["eat into sth","gradually use up or reduce sth","Rising costs are eating into our profits.",["eat into savings / profits","eat into your free time"],"Unexpected repairs began to ___ our savings.","eat into"],
+["lay into sb","attack physically or criticise harshly","The manager laid into the team after the defeat.",["lay into sb for sth"],"The coach ___ the players after the defeat.","laid into"],
+["CMS = Candidate Master of Sport (КМС)","a Ukrainian sports rank below Master of Sport","She holds the rank of Candidate Master of Sport.",["Master of Sport","a sports rank"],"In Ukraine she holds the rank of ___ in boxing.","Candidate Master of Sport"],
+["search (обшук)","lawful examination of a person, place or vehicle for evidence","The police carried out a search of the flat.",["conduct a search","a search warrant","a body search / pat-down"],"The police obtained a ___ before entering the flat.","search warrant"],
+["surrogate","a substitute or stand-in","He saw the coach as a surrogate father.",["a surrogate mother","a surrogate for sb"],"He saw the coach as a ___ father.","surrogate"],
+["worldwide attention","interest from people across the world","The trial attracted worldwide attention.",["attract / draw / gain worldwide attention"],"The trial attracted ___.","worldwide attention"],
+["oyster","the world is your oyster = every opportunity is open to you","With your skills, the world is your oyster.",["an Oyster card (London)"],"With your skills, the world is your ___.","oyster"],
+["make up for sth (згладити вину)","compensate for a mistake or loss","I'll make up for missing your birthday with a dinner.",["make up for lost time","make it up to sb"],"I'll ___ missing your birthday with a dinner.","make up for"],
+["let sb through / cross the border","allow people to pass the checkpoint","The guards let us through after an hour.",["let sb cross the border","be turned back at the border"],"The guards finally ___ through the checkpoint.","let us"],
+["cruise missiles","guided missiles that fly at low altitude","The air defence intercepted several cruise missiles.",["launch / intercept cruise missiles"],"The air defence intercepted several ___.","cruise missiles"],
+["fighter jets","fast military aircraft designed for air combat","Two fighter jets were scrambled.",["scramble fighter jets","a squadron of fighter jets"],"Two ___ were scrambled to intercept the aircraft.","fighter jets"],
+["cadet","a young person training to be an officer","She is a first-year police cadet.",["a police cadet","a cadet academy"],"She is a first-year police ___.","cadet"],
+["spy drone","an informal term for a drone used for secret observation","They shot down a spy drone.",["shoot down a spy drone"],"They shot down a ___ over the base.","spy drone"],
+["surveillance drone","a drone used for watching an area or people","Police used a surveillance drone to monitor the crowd.",["deploy a surveillance drone","aerial surveillance"],"Police used a ___ to monitor the crowd.","surveillance drone"],
+["State Border Guard Service of Ukraine","the Ukrainian border agency (ДПСУ)","She works for the State Border Guard Service.",["a border guard","a border crossing point"],"She works for the ___ of Ukraine.","State Border Guard Service"],
+["click on a link","select a link on a screen","Click on the link to confirm your email.",["follow a link","a broken link","a link to sth"],"To confirm, ___ in the email.","click on the link"],
+["operational police work","front-line police work in the field","He missed operational police work after years at a desk.",["operational duties","operational needs"],"After years at a desk he missed ___.","operational police work"],
+["bob cut (каре)","a haircut cut straight at chin length","She had her hair cut in a bob.",["a blunt bob","a long bob (lob)","a fringe (BrE) / bangs (AmE)"],"She had her hair cut in a ___.","bob"],
+["non-combatant","someone not taking part in fighting","International law protects non-combatants.",["non-combatant status","protect non-combatants"],"International law protects ___.","non-combatants"],
+["to yield (= stop resisting)","give way; also to produce","The protesters refused to yield to pressure.",["yield to pressure / temptation","yield results"],"The protesters refused to ___ to pressure.","yield"],
+["detective inspector (оперуповноважений)","a UK rank; closer equivalent: detective / investigating officer","The case was assigned to a detective.",["the investigating officer","a plainclothes detective"],"The case was assigned to a ___.","detective"],
+["have an ear for sth","have a natural sensitivity to sounds or language","She has an ear for languages.",["a good ear for music","a tin ear for sth"],"She ___ languages and picks up accents quickly.","has an ear for"],
+["rapid response (оперативне реагування)","a quick reaction to an emergency","A rapid-response unit arrived within minutes.",["a rapid-response unit","a rapid response to sth"],"A ___ unit arrived within minutes.","rapid-response"],
+["to impound (вилучити)","take legal custody of a car or goods temporarily","Police impounded his car after the accident.",["an impound lot","have your car impounded"],"Police ___ his car after the accident.","impounded"],
+["a suspended sentence","a prison sentence not served unless the offender reoffends","He received a two-year suspended sentence.",["hand down a suspended sentence","probation"],"He received a two-year ___.","suspended sentence"],
+["interrogation","formal, intense questioning of a suspect","The suspect was held for hours under interrogation.",["conduct an interrogation","an interrogation room"],"The suspect was held for hours under ___.","interrogation"],
+["temporary detention centre","short-term police holding facility (ІТТ)","He was held in a temporary detention centre for 48 hours.",["a holding cell","a custody suite (UK)"],"He was held in a ___ for 48 hours.","temporary detention centre"],
+["cast iron (чавун)","hard iron alloy; figuratively unbreakable","He has a cast-iron alibi.",["a cast-iron pan","a cast-iron guarantee"],"He has a ___ alibi.","cast-iron"],
+["management (керівництво)","the people who run an organisation (uncountable)","Staff asked management to explain the new schedule.",["senior / middle management","under new management"],"Staff asked ___ to explain the new schedule.","management"],
+["the carrot and the stick","using rewards and punishments together","The state uses a carrot-and-stick approach to reduce smuggling.",["a carrot-and-stick approach"],"The state uses a ___ approach to reduce smuggling.","carrot-and-stick"]
+].map(a=>({w:a[0],d:a[1],ex:a[2],col:a[3],ctx:a[4],f:a[5]}));
+const CO=[
+{q:"to ___ in new rules",a:"bring",o:["take","carry","fetch"]},
+{q:"to have a ___ on the outcome",a:"bearing",o:["hold","say","grip"]},
+{q:"to stand your ___",a:"ground",o:["place","floor","land"]},
+{q:"to have a ___ on Sundays",a:"lie-in",o:["lie-up","lie-down","lay-in"]},
+{q:"to ___ off in front of the TV",a:"nod",o:["bow","shake","tilt"]},
+{q:"to eat ___ your savings",a:"into",o:["onto","on","at"]},
+{q:"a search ___",a:"warrant",o:["paper","permit","licence"]},
+{q:"to make ___ for lost time",a:"up",o:["out","over","off"]},
+{q:"a ___ sentence",a:"suspended",o:["hanging","delayed","paused"]},
+{q:"to conduct an ___",a:"interrogation",o:["interrogate","interrogating","interrogated"]},
+{q:"a cast-___ alibi",a:"iron",o:["steel","metal","stone"]},
+{q:"a rapid-___ unit",a:"response",o:["respond","responsive","responding"]},
+{q:"to yield ___ pressure",a:"to",o:["for","at","by"]},
+{q:"to have an ___ for languages",a:"ear",o:["nose","eye","tongue"]}
+];
+const GRN=[
+["Phrasal verb patterns","Separable: bring in sth / bring sth in. Inseparable: eat into sth, lay into sb. Intransitive: nod off. Three-part: make up for sth, talk sb round to sth, make it up to sb."],
+["let + object + bare infinitive","They let us cross the border (no 'to'). The passive uses 'allow': We were allowed to cross."],
+["Hyphens before nouns","a cast-iron alibi, a rapid-response unit, a carrot-and-stick approach, across-the-board… but the noun phrase itself is open: the carrot and the stick; cast iron."],
+["Plural-only 'bearings'","get / lose your bearings (= know where you are). 'A ball bearing' is a machine part; 'have a bearing on sth' means be relevant to it."],
+["Uncountable nouns","management (BrE verb may be plural: management are…), interrogation is countable in the plural only for repeated sessions."],
+["BrE / AmE","lie-in / sleep in · talk round / around · centre / center · fringe / bangs · AmE yield to traffic = BrE give way."]
+];
+const GR=[
+{q:"Which is correct?",a:"He laid into them.",o:["He laid them into.","He laid into to them.","He laid in them."],e:"lay into sb is inseparable."},
+{q:"Which is correct?",a:"They let us cross the border.",o:["They let us to cross the border.","They let us crossing the border.","We were let to cross the border."],e:"let + object + bare infinitive."},
+{q:"I'll ___ you.",a:"make it up to",o:["make up for","make you up to","make it up for"],e:"make it up to sb = compensate sb."},
+{q:"Before a noun: a ___ alibi.",a:"cast-iron",o:["cast iron","casted iron","iron-cast"],e:"Compound modifiers are hyphenated before nouns."},
+{q:"They talked him round ___ the plan.",a:"to",o:["of","with","at"],e:"talk sb round to sth."},
+{q:"Rising prices are ___ our savings.",a:"eating into",o:["eating in","eating on","eating up into"],e:"eat into sth (inseparable)."},
+{q:"I've lost my ___ in this city.",a:"bearings",o:["bearing","bearers","bearings'"],e:"lose your bearings."}
+];
+const sh=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const V=document.getElementById("v"),known=new Set();
+function quiz(items){
+  let o=sh(items),i=0,s=0,done=false;
+  (function draw(){
+    done=false;
+    if(i>=o.length){V.innerHTML=`<p class="big">Score: ${s}/${o.length}</p><button id="r">Try again</button>`;document.getElementById("r").onclick=()=>{o=sh(items);i=0;s=0;draw()};return}
+    const t=o[i];
+    V.innerHTML=`<p class="muted">${i+1} / ${o.length} · score ${s}</p><p class="q">${t.q.replace("___",'<span class="bl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>')}</p><div class="opts">${sh(t.o.concat(t.a)).map(x=>`<button class="opt">${x}</button>`).join("")}</div><div id="fb"></div>`;
+    V.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      if(done)return;done=true;
+      const ok=b.textContent===t.a;if(ok)s++;
+      V.querySelectorAll(".opt").forEach(x=>{if(x.textContent===t.a)x.classList.add("ok");else if(x===b)x.classList.add("no")});
+      document.getElementById("fb").innerHTML=`<p>${ok?"✅ Correct.":"❌ Answer: <b>"+t.a+"</b>."} ${t.e||""}</p><button id="n">Next →</button>`;
+      document.getElementById("n").onclick=()=>{i++;draw()};
+    });
+  })();
+}
+function cards(){
+  let list=D,i=0,flip=false;
+  function draw(){
+    const t=list[i];
+    V.innerHTML=`<div class="card" id="c">${flip?`<div class="back"><p><b>${t.w}</b> – ${t.d}</p><p><em>${t.ex}</em></p><div>${t.col.map(c=>`<span class="chip">${c}</span>`).join("")}</div></div>`:`<div class="w">${t.w}</div><p class="muted">tap to flip</p>`}</div>
+    <div class="row"><button id="p">←</button><span class="muted">${i+1}/${list.length} · ${known.size} known</span><button id="nx">→</button><button id="k">${known.has(t.w)?"✓ Known":"Mark as known"}</button><button id="s">Shuffle</button></div>`;
+    document.getElementById("c").onclick=()=>{flip=!flip;draw()};
+    document.getElementById("p").onclick=()=>{i=(i-1+list.length)%list.length;flip=false;draw()};
+    document.getElementById("nx").onclick=()=>{i=(i+1)%list.length;flip=false;draw()};
+    document.getElementById("k").onclick=()=>{known.has(t.w)?known.delete(t.w):known.add(t.w);draw()};
+    document.getElementById("s").onclick=()=>{list=sh(list);i=0;flip=false;draw()};
+  }
+  draw();
+}
+function grammar(){
+  V.innerHTML=GRN.map(x=>`<div class="gr"><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join("")+`<div class="row"><button id="gq">Practise grammar →</button></div>`;
+  document.getElementById("gq").onclick=()=>setTab(4);
+}
+const T=[["Cards",cards],["In context",()=>quiz(D.map(x=>({q:x.ctx,a:x.f,o:sh(D.filter(y=>y!==x)).slice(0,3).map(y=>y.f),e:`<br><b>${x.w}</b>: ${x.d}.`})))],["Collocations",()=>quiz(CO)],["Grammar",grammar],["Grammar quiz",()=>quiz(GR)]];
+const N=document.getElementById("nav");
+function setTab(n){N.innerHTML=T.map((t,j)=>`<button class="${j===n?"on":""}" data-j="${j}">${t[0]}</button>`).join("");N.querySelectorAll("button").forEach(b=>b.onclick=()=>setTab(+b.dataset.j));T[n][1]()}
+setTab(0);
+</script></main></body></html>
