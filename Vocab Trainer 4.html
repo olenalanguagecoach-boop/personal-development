@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vocab Trainer 4</title>
+<style>
+:root{--bg:#faf8f4;--fg:#222;--mut:#777;--card:#fff;--bd:#ddd5c8;--ac:#b4472f;--ok:#2f7d4f;--no:#b32d2d;--chip:#f1e9dd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1917;--fg:#eee;--mut:#9a948b;--card:#262320;--bd:#3d3833;--ac:#e8806a;--ok:#6fcf97;--no:#f08080;--chip:#332e29}}
+:root[data-theme="dark"]{--bg:#1b1917;--fg:#eee;--mut:#9a948b;--card:#262320;--bd:#3d3833;--ac:#e8806a;--ok:#6fcf97;--no:#f08080;--chip:#332e29}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Georgia,"Times New Roman",serif}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:1.3rem;margin:0 0 10px}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+button{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:8px;padding:8px 12px;cursor:pointer}
+nav button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;min-height:230px;padding:22px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer}
+.w{font-size:1.6rem;font-weight:bold}
+.back{text-align:left}
+em,.muted{color:var(--mut)}
+.chip{display:inline-block;background:var(--chip);border-radius:999px;padding:2px 10px;margin:3px 4px 0 0;font-size:.88rem}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center}
+.q{font-size:1.15rem;margin:8px 0 14px}
+.bl{border-bottom:2px solid var(--ac);padding:0 8px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left}
+.opt.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.no{background:var(--no);color:#fff;border-color:var(--no)}
+.big{font-size:1.4rem}
+.gr{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.gr h3{margin:0 0 4px;font-size:1rem;color:var(--ac)}
+.gr p{margin:4px 0}
+</style></head><body><main>
+<h1>🧠 Vocab Trainer 4 (items 39–74)</h1>
+<nav id="nav"></nav>
+<section id="v"></section>
+<script>
+const D=[
+["be in pieces","be devastated (informal); or broken into parts","She was in pieces after the news.",["go to pieces","fall to pieces","pick up the pieces"],"She was ___ after hearing the news.","in pieces"],
+["hang on by your fingernails","barely manage to keep sth in a difficult situation","The team is hanging on by its fingernails in the league.",["cling on by your fingernails","hold on by your fingertips"],"The company is ___ after losing its biggest client.","hanging on by its fingernails"],
+["be induced","to have labour started artificially with medication","She was induced at 41 weeks.",["induce labour","an induced labour","induction"],"She was overdue, so she had to ___.","be induced"],
+["wedged (between sth)","stuck tightly in a narrow space","The car was wedged between two trucks.",["be wedged between A and B","wedge sth into sth"],"The car was ___ between two trucks.","wedged"],
+["positions (military) – позиції","places where troops and weapons are located","Artillery struck enemy positions overnight.",["hold / defend a position","enemy positions","fall back to prepared positions"],"Artillery struck enemy ___ overnight.","positions"],
+["machine gun (кулемет)","an automatic weapon that fires continuously","A machine-gun nest covered the road.",["a heavy machine gun","machine-gun fire","submachine gun"],"The patrol was fired on from a ___ nest.","machine-gun"],
+["surface-to-air missile systems","missile systems that hit aircraft (SAM)","The army received new surface-to-air missile systems.",["deploy SAM systems","a SAM battery","air defence systems"],"The army received new ___ systems.","surface-to-air missile"],
+["cut sb some slack","be less strict with sb who has a reason to struggle","Cut him some slack, he's only been here a week.",["cut yourself some slack","pick up the slack"],"It's his first week, so please ___ him some slack.","cut"],
+["trickle","flow slowly in small amounts; a small slow flow","Tears trickled down her face.",["a trickle of water / visitors","news trickled out","trickle-down effect"],"Tears began to ___ down her face.","trickle"],
+["short-tempered","getting angry easily (запальний)","He gets short-tempered when he's tired.",["quick-tempered","have a short fuse","even-tempered (opposite)"],"He gets ___ when he's tired.","short-tempered"],
+["comeuppance","a deserved punishment (заслужена кара)","The corrupt official finally got his comeuppance.",["get / meet your comeuppance","just deserts"],"The corrupt official finally got his ___.","comeuppance"],
+["walk on eggshells","be extremely careful not to upset sb","We've all been walking on eggshells around him.",["tread carefully","tiptoe around sb"],"Since the argument we've all been ___ around him.","walking on eggshells"],
+["just for once","this one time, unlike all other times","Just for once, the trains were on time.",["just this once","for once"],"___, could you listen to me?","Just for once"],
+["subpoena","a legal order to appear in court or produce documents","The court issued a subpoena for his bank records.",["issue / serve a subpoena","be subpoenaed to testify"],"The court issued a ___ for his bank records.","subpoena"],
+["waiver","voluntary giving up of a right; the document for it","Visitors must sign a liability waiver.",["a visa waiver","waive your rights"],"Visitors must sign a liability ___.","waiver"],
+["pay homage","show public respect or admiration","The film pays homage to classic westerns.",["pay homage to sb","pay tribute to sb"],"The film ___ to classic westerns.","pays homage"],
+["tantalise","excite desire with sth out of reach","The smell of fresh bread tantalised him.",["a tantalising glimpse","tantalisingly close"],"The smell of fresh bread began to ___ him.","tantalise"],
+["grapple","struggle physically or mentally (with)","The government is grappling with a budget crisis.",["grapple with a problem","a grappling hook"],"The government is ___ with a budget crisis.","grappling"],
+["to ascertain","find out for certain (з'ясувати)","Police are trying to ascertain the cause of the fire.",["ascertain the facts","ascertain whether…"],"Police are trying to ___ the cause of the fire.","ascertain"],
+["revolt","an uprising; to rebel; to disgust","The soldiers revolted against their officers.",["put down a revolt","be revolted by sth"],"The soldiers ___ against their officers.","revolted"],
+["conviction","a guilty verdict; a firm belief","He has two previous convictions for theft.",["quash a conviction","speak with conviction"],"He has two previous ___ for theft.","convictions"],
+["futile","pointless, with no chance of success","All attempts to save the building were futile.",["a futile attempt","prove futile","in vain"],"All attempts to save the building were ___.","futile"],
+["to cede","give up territory or control","The country was forced to cede part of its territory.",["cede sth to sb","cede ground"],"The country was forced to ___ part of its territory.","cede"],
+["stern","strict and serious; the back of a ship","The judge gave him a stern warning.",["a stern look","sternly","bow vs stern"],"The judge gave him a ___ warning.","stern"],
+["coup","a sudden seizure of power; a clever success","The army staged a coup and arrested the president.",["stage / foil a coup","a military coup"],"The army staged a ___ and arrested the president.","coup"],
+["heed","pay attention to advice or a warning","He failed to heed the warnings.",["pay heed to sb","take heed of sth"],"He failed to ___ the warnings.","heed"],
+["beacon","a guiding light or signal; a symbol of hope","The country became a beacon of hope for refugees.",["a beacon of hope","a distress beacon"],"The country became a ___ of hope for refugees.","beacon"],
+["conciliatory (move)","meant to calm tension and make peace","The president made a conciliatory move by offering to resume talks.",["a conciliatory gesture / tone","extend an olive branch"],"The president made a ___ gesture by offering to resume talks.","conciliatory"],
+["to outlaw sth","make sth illegal","The government outlawed drone flights near airports.",["outlaw discrimination","ban","prohibit"],"The government ___ drone flights near airports.","outlawed"],
+["to abhor","hate strongly for moral reasons","I abhor cruelty to animals.",["abhorrent","find sth abhorrent"],"I ___ cruelty to animals.","abhor"],
+["to snitch","secretly tell authorities about sb's wrongdoing","Someone snitched on him and the police raided his flat.",["snitch on sb","grass sb up (BrE)","a snitch"],"Someone ___ on him and the police raided his flat.","snitched"],
+["debauched","morally corrupt through excess","The film shows the debauched lifestyle of the royal court.",["a debauched lifestyle","debauchery"],"The film shows the ___ lifestyle of the royal court.","debauched"],
+["proclivity","a natural tendency (often negative)","He has a proclivity for violence.",["a proclivity for / to sth","a natural proclivity"],"He has a ___ for violence.","proclivity"],
+["to seep","flow slowly through small openings","Blood seeped through the bandage.",["seep through / into / out","seepage"],"Blood began to ___ through the bandage.","seep"],
+["carnal","relating to the body and its desires","The priest warned against carnal pleasures.",["carnal desire","carnal knowledge"],"The priest warned against ___ pleasures.","carnal"],
+["UPS = Uninterruptible Power Supply (ДБЖ)","a battery backup that keeps equipment running","The server stayed on thanks to the UPS.",["connect to a UPS","a UPS unit","a power outage"],"The server stayed on thanks to the ___ when the power failed.","UPS"]
+].map(a=>({w:a[0],d:a[1],ex:a[2],col:a[3],ctx:a[4],f:a[5]}));
+const CO=[
+{q:"a ___ of hope",a:"beacon",o:["bell","bulb","clock"]},
+{q:"to grapple ___ a problem",a:"with",o:["on","at","over"]},
+{q:"to stage a military ___",a:"coup",o:["cup","coop","cow"]},
+{q:"a conciliatory ___",a:"gesture",o:["gestured","gesturing","gestural"]},
+{q:"to sign a ___",a:"waiver",o:["waive","waved","wave"]},
+{q:"to seep ___ the cracks",a:"through",o:["throw","thorough","threw"]},
+{q:"to get your ___",a:"comeuppance",o:["comeback","outcome","upcome"]},
+{q:"to cut sb some ___",a:"slack",o:["slick","slice","slag"]},
+{q:"to walk on ___",a:"eggshells",o:["eggs","shells","glass"]},
+{q:"a ___ attempt",a:"futile",o:["futility","futilely","futilise"]},
+{q:"to pick up the ___",a:"pieces",o:["parts","chunks","sections"]},
+{q:"to pay heed ___ a warning",a:"to",o:["at","for","on"]},
+{q:"to have a ___ for sth",a:"proclivity",o:["proclivities","proclive","proclaiming"]}
+];
+const GRN=[
+["Prepositions","grapple WITH · revolt AGAINST · pay homage TO · pay heed TO (but: heed a warning, no preposition) · cede sth TO sb · snitch ON sb · convicted OF a crime · a conviction FOR theft."],
+["Spelling traps","waiver (noun) vs waive (verb) vs wave · tantalise (BrE) / tantalize (AmE) · abhor → abhorred, abhorring · debauched · ascertain."],
+["Stress and word class","Stress shifts: the noun a convict /ˈkɒnvɪkt/, the verb to convict /kənˈvɪkt/. Also: to outlaw / an outlaw, to revolt / a revolt, stern (adjective) / stern (noun)."],
+["State vs action","'She was induced' (action, passive); 'the car was wedged' (state resulting from an action); 'she was in pieces' (state, informal)."],
+["Register ladder","Formal: abhor, heed, ascertain, cede, proclivity, carnal. Everyday: hate, listen to, find out, give up, tendency, physical. Informal: snitch, cut sb some slack, comeuppance."],
+["Idiom patterns","hang on BY your fingernails · walk on eggshells AROUND sb · cut sb (some) slack · JUST for once at the start of a sentence."]
+];
+const GR=[
+{q:"The government is grappling ___ a budget crisis.",a:"with",o:["on","at","over"],e:"grapple with."},
+{q:"He failed to ___ the warnings.",a:"heed",o:["heeded","heeding","heeds"],e:"fail to + infinitive."},
+{q:"The soldiers revolted ___ their officers.",a:"against",o:["to","with","on"],e:"revolt against."},
+{q:"Someone snitched ___ him.",a:"on",o:["at","for","with"],e:"snitch on sb."},
+{q:"He was convicted ___ fraud.",a:"of",o:["in","with","about"],e:"be convicted of a crime."},
+{q:"I ___ cruelty to animals for years.",a:"abhorred",o:["abhored","abhorrd","abhorrered"],e:"The final r is doubled: abhorred."},
+{q:"She was ___ at 41 weeks.",a:"induced",o:["inducing","induction","induct"],e:"be induced (passive)."}
+];
+const sh=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const V=document.getElementById("v"),known=new Set();
+function quiz(items){
+  let o=sh(items),i=0,s=0,done=false;
+  (function draw(){
+    done=false;
+    if(i>=o.length){V.innerHTML=`<p class="big">Score: ${s}/${o.length}</p><button id="r">Try again</button>`;document.getElementById("r").onclick=()=>{o=sh(items);i=0;s=0;draw()};return}
+    const t=o[i];
+    V.innerHTML=`<p class="muted">${i+1} / ${o.length} · score ${s}</p><p class="q">${t.q.replace("___",'<span class="bl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>')}</p><div class="opts">${sh(t.o.concat(t.a)).map(x=>`<button class="opt">${x}</button>`).join("")}</div><div id="fb"></div>`;
+    V.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      if(done)return;done=true;
+      const ok=b.textContent===t.a;if(ok)s++;
+      V.querySelectorAll(".opt").forEach(x=>{if(x.textContent===t.a)x.classList.add("ok");else if(x===b)x.classList.add("no")});
+      document.getElementById("fb").innerHTML=`<p>${ok?"✅ Correct.":"❌ Answer: <b>"+t.a+"</b>."} ${t.e||""}</p><button id="n">Next →</button>`;
+      document.getElementById("n").onclick=()=>{i++;draw()};
+    });
+  })();
+}
+function cards(){
+  let list=D,i=0,flip=false;
+  function draw(){
+    const t=list[i];
+    V.innerHTML=`<div class="card" id="c">${flip?`<div class="back"><p><b>${t.w}</b> – ${t.d}</p><p><em>${t.ex}</em></p><div>${t.col.map(c=>`<span class="chip">${c}</span>`).join("")}</div></div>`:`<div class="w">${t.w}</div><p class="muted">tap to flip</p>`}</div>
+    <div class="row"><button id="p">←</button><span class="muted">${i+1}/${list.length} · ${known.size} known</span><button id="nx">→</button><button id="k">${known.has(t.w)?"✓ Known":"Mark as known"}</button><button id="s">Shuffle</button></div>`;
+    document.getElementById("c").onclick=()=>{flip=!flip;draw()};
+    document.getElementById("p").onclick=()=>{i=(i-1+list.length)%list.length;flip=false;draw()};
+    document.getElementById("nx").onclick=()=>{i=(i+1)%list.length;flip=false;draw()};
+    document.getElementById("k").onclick=()=>{known.has(t.w)?known.delete(t.w):known.add(t.w);draw()};
+    document.getElementById("s").onclick=()=>{list=sh(list);i=0;flip=false;draw()};
+  }
+  draw();
+}
+function grammar(){
+  V.innerHTML=GRN.map(x=>`<div class="gr"><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join("")+`<div class="row"><button id="gq">Practise grammar →</button></div>`;
+  document.getElementById("gq").onclick=()=>setTab(4);
+}
+const T=[["Cards",cards],["In context",()=>quiz(D.map(x=>({q:x.ctx,a:x.f,o:sh(D.filter(y=>y!==x)).slice(0,3).map(y=>y.f),e:`<br><b>${x.w}</b>: ${x.d}.`})))],["Collocations",()=>quiz(CO)],["Grammar",grammar],["Grammar quiz",()=>quiz(GR)]];
+const N=document.getElementById("nav");
+function setTab(n){N.innerHTML=T.map((t,j)=>`<button class="${j===n?"on":""}" data-j="${j}">${t[0]}</button>`).join("");N.querySelectorAll("button").forEach(b=>b.onclick=()=>setTab(+b.dataset.j));T[n][1]()}
+setTab(0);
+</script></main></body></html>
